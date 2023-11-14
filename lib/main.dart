@@ -12,7 +12,7 @@ void main() {
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: Routes.initial,
+      initialRoute: Routes.dashboard,
       theme: themeData,
       getPages: AppPages.pages,
       localizationsDelegates: const [
