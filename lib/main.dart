@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hortifruti/app/core/theme/app_theme.dart';
+import 'package:flutter_hortifruti/app/data/provider/api.dart';
 import 'package:flutter_hortifruti/app/routes/pages.dart';
 import 'package:flutter_hortifruti/app/routes/routes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -7,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 void main() {
+  Get.put<Api>(Api());
+
   Intl.defaultLocale = 'pt_BR';
 
   runApp(
