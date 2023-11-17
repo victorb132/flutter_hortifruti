@@ -29,6 +29,12 @@ class Api extends GetConnect {
     return data;
   }
 
+  Future<StoreModel> getStore(int id) async {
+    final response = _errorHandler(await get('/estabelecimentos/$id'));
+
+    return StoreModel.fromJson(response.body);
+  }
+
   Response _errorHandler(Response response) {
     print(response.bodyString);
 

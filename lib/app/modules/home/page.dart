@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hortifruti/app/modules/home/controller.dart';
+import 'package:flutter_hortifruti/app/routes/routes.dart';
+import 'package:flutter_hortifruti/app/widgets/store_status.dart';
 import 'package:get/get.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -33,21 +35,13 @@ class HomePage extends GetView<HomeController> {
                     vertical: 8,
                     horizontal: 16,
                   ),
-                  onTap: () {},
-                  trailing: Container(
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      color: store.isOnline ? Colors.green : Colors.black45,
-                      border: Border.all(color: Colors.black12, width: 2),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Text(
-                      store.isOnline ? 'Aberto' : 'Fechado',
-                      style: Get.textTheme.bodyMedium?.copyWith(
-                        color: Colors.white,
-                      ),
+                  onTap: () => Get.toNamed(
+                    Routes.store.replaceFirst(
+                      ':id',
+                      store.id.toString(),
                     ),
                   ),
+                  trailing: StoreStatus(isOnline: store.isOnline),
                 )
           ],
         ),
