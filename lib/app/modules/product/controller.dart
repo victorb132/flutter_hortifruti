@@ -41,5 +41,10 @@ class ProductController extends GetxController {
             Text('O item ${product.value!.name} foi adicionado no carrinho'),
       ),
     );
+
+    Future.delayed(
+      const Duration(milliseconds: 300),
+      () => Get.back(),
+    );
   }
 }

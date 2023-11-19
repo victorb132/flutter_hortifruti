@@ -122,6 +122,11 @@ class StorePage extends GetView<StoreController> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Get.toNamed(Routes.cart),
+        tooltip: 'Ver carrinho',
+        child: const Icon(Icons.shopping_cart),
+      ),
     );
   }
 }
