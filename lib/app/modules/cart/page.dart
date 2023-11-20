@@ -7,6 +7,10 @@ class CartPage extends GetView<CartController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text('CartPage')),
-        body: SafeArea(child: Text('CartController')));
+        body: SingleChildScrollView(
+          child: Column(
+            children: [],
+          ),
+        ));
   }
 }
