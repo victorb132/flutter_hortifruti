@@ -104,7 +104,7 @@ class StorePage extends GetView<StoreController> {
                             title: Text(product.name),
                             subtitle: Text(
                               NumberFormat.simpleCurrency()
-                                      .format(double.tryParse(product.price)) +
+                                      .format(product.price) +
                                   (product.isKG ? '/kg' : ''),
                             ),
                             trailing: IconButton(

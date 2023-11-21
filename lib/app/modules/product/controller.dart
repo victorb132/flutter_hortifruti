@@ -25,6 +25,10 @@ class ProductController extends GetxController {
   void addToCart() {
     final quantity = Get.find<QuantityAndWeightController>().quantity;
 
+    if (store.value != null) {
+      _cartService.newCart(store.value!);
+    }
+
     if (product.value != null) {
       _cartService.addProductToCart(
         CartProductModel(

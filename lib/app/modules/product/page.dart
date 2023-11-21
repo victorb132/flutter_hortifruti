@@ -41,8 +41,7 @@ class ProductPage extends GetView<ProductController> {
                 )
               ],
               Text(
-                NumberFormat.simpleCurrency()
-                        .format(double.tryParse(product.price)) +
+                NumberFormat.simpleCurrency().format(product.price) +
                     (product.isKG ? '/kg' : ''),
                 style: Get.textTheme.titleLarge,
               ),

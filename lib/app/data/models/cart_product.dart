@@ -11,5 +11,5 @@ class CartProductModel {
     this.observation,
   });
 
-  num get total => double.tryParse(product.price) ?? 0 * quantity;
+  num get total => product.price * quantity;
 }

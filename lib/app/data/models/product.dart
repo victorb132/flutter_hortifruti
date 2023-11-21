@@ -1,7 +1,7 @@
 class ProductModel {
   int id;
   String name;
-  String price;
+  num price;
   String unitOfMeasure;
   String? description;
   String image;
@@ -22,7 +22,7 @@ class ProductModel {
         name: json['name'],
         image: json['image'],
         unitOfMeasure: json['unity'],
-        price: json['price'],
+        price: double.tryParse(json['price']) ?? json['price'],
         description: json['description'],
       );
 }
