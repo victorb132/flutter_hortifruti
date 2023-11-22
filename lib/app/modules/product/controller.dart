@@ -22,10 +22,20 @@ class ProductController extends GetxController {
     super.onInit();
   }
 
-  void addToCart() {
+  void addToCart() async {
     final quantity = Get.find<QuantityAndWeightController>().quantity;
 
-    if (store.value != null) {
+    if (store.value != null && _cartService.isANewStore(store.value!)) {
+      final startNewCart = await showDialogNewCart();
+
+      if (startNewCart) {
+        _cartService.clearCart();
+      } else {
+        return;
+      }
+    }
+
+    if (store.value != null && _cartService.products.isEmpty) {
       _cartService.newCart(store.value!);
     }
 
@@ -50,5 +60,21 @@ class ProductController extends GetxController {
       const Duration(milliseconds: 300),
       () => Get.back(),
     );
+  }
+
+  Future<dynamic> showDialogNewCart() async {
+    return Get.dialog(AlertDialog(
+      content: const Text('Seu carrinho atual será perdido. Deseja continuar?'),
+      actions: [
+        TextButton(
+          onPressed: () => Get.back(result: false),
+          child: const Text('Voltar'),
+        ),
+        TextButton(
+          onPressed: () => Get.back(result: true),
+          child: const Text('Continuar'),
+        ),
+      ],
+    ));
   }
 }
