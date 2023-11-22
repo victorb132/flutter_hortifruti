@@ -1,15 +1,33 @@
+import 'package:flutter_hortifruti/app/data/models/user.dart';
 import 'package:flutter_hortifruti/app/data/models/user_login_request.dart';
 import 'package:flutter_hortifruti/app/data/services/auth/repository.dart';
+import 'package:flutter_hortifruti/app/data/services/config/storage/service.dart';
 import 'package:get/get.dart';
 
 class AuthService extends GetxService {
-  AuthRepository _repository;
+  final AuthRepository _repository;
+
+  final _storageService = Get.find<StorageService>();
+  final user = Rxn<UserModel>();
+  bool get isLogged => user.value != null;
 
   AuthService(this._repository);
 
-  Future login(UserLoginRequestModel user) {
-    final data = _repository.login(user);
+  @override
+  void onInit() async {
+    await _getUser();
+    super.onInit();
+  }
 
-    return data;
+  Future<void> login(UserLoginRequestModel userRequest) async {
+    final userResponse = await _repository.login(userRequest);
+    await _storageService.saveToken(userResponse.token);
+    await _getUser();
+  }
+
+  Future _getUser() {
+    return _repository.getUser().then((value) {
+      user.value = value;
+    });
   }
 }

@@ -10,7 +10,7 @@ class UserLoginResponseModel {
   factory UserLoginResponseModel.fromJson(Map<String, dynamic> json) {
     return UserLoginResponseModel(
       token: json['token'],
-      expiresAt: json['expires'],
+      expiresAt: json['expires_at'],
     );
   }
 }
