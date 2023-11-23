@@ -1,17 +1,32 @@
+import 'package:flutter_hortifruti/app/data/models/address.dart';
 import 'package:flutter_hortifruti/app/data/models/payment_method.dart';
 import 'package:flutter_hortifruti/app/data/models/shipping_by_city.dart';
 import 'package:flutter_hortifruti/app/data/services/auth/service.dart';
 import 'package:flutter_hortifruti/app/data/services/cart/service.dart';
+import 'package:flutter_hortifruti/app/modules/checkout/repository.dart';
 import 'package:flutter_hortifruti/app/routes/routes.dart';
 import 'package:get/get.dart';
 
 class CheckoutController extends GetxController {
+  final CheckoutRepository _repository;
+
   final _cartService = Get.find<CartService>();
   final _authService = Get.find<AuthService>();
 
-  CheckoutController();
+  final paymentMethod = Rxn<PaymentMethodModel>();
+  final addresses = RxList<AddressModel>.empty();
+
+  @override
+  void onInit() async {
+    await fetchAddresses();
+
+    super.onInit();
+  }
+
+  CheckoutController(this._repository);
 
   num get totalCart => _cartService.total;
+
   num get deliveryCost {
     if (getShippingByCity != null) {
       return getShippingByCity!.cost;
@@ -34,13 +49,23 @@ class CheckoutController extends GetxController {
 
   bool get isLogged => _authService.isLogged;
 
-  final paymentMethod = Rxn<PaymentMethodModel>();
-
   void changePaymentMethod(PaymentMethodModel? newPaymentMethod) {
     paymentMethod.value = newPaymentMethod;
   }
 
+  void goToNewAddress() {
+    Get.toNamed(Routes.userAddress);
+  }
+
   void goToLogin() {
     Get.toNamed(Routes.login);
+  }
+
+  fetchAddresses() {
+    _repository.getUserAddresses().then(
+      (value) {
+        addresses.addAll(value);
+      },
+    );
   }
 }

@@ -1,7 +1,10 @@
 import 'dart:convert';
 
+import 'package:flutter_hortifruti/app/data/models/address.dart';
+import 'package:flutter_hortifruti/app/data/models/city.dart';
 import 'package:flutter_hortifruti/app/data/models/store.dart';
 import 'package:flutter_hortifruti/app/data/models/user.dart';
+import 'package:flutter_hortifruti/app/data/models/user_address_request.dart';
 import 'package:flutter_hortifruti/app/data/models/user_login_request.dart';
 import 'package:flutter_hortifruti/app/data/models/user_login_response.dart';
 import 'package:flutter_hortifruti/app/data/services/config/storage/service.dart';
@@ -36,6 +39,24 @@ class Api extends GetConnect {
     super.onInit();
   }
 
+  Future<List<CityModel>> getCities() async {
+    final response = _errorHandler(await get('/cidades'));
+
+    List<CityModel> data = [];
+
+    for (final city in response.body) {
+      data.add(CityModel.fromJson(city));
+    }
+
+    return data;
+  }
+
+  Future<void> postAddress(UserAddressRequestModel data) async {
+    final response = _errorHandler(await post('/enderecos', jsonEncode(data)));
+
+    return response.body;
+  }
+
   Future<List<StoreModel>> getStores() async {
     final response = _errorHandler(await get('/cidades/1/estabelecimentos'));
 
@@ -57,6 +78,18 @@ class Api extends GetConnect {
   Future<UserModel> getUser() async {
     final response = _errorHandler(await get('/auth/me'));
     return UserModel.fromJson(response.body);
+  }
+
+  Future<List<AddressModel>> getUserAddresses() async {
+    final response = _errorHandler(await get('/enderecos'));
+
+    List<AddressModel> data = [];
+
+    for (final address in response.body) {
+      data.add(AddressModel.fromJson(address));
+    }
+
+    return data;
   }
 
   Future<StoreModel> getStore(int id) async {
