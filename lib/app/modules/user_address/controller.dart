@@ -13,6 +13,7 @@ class UserAddressController extends GetxController
 
   final _authService = Get.find<AuthService>();
 
+  final formKey = GlobalKey<FormState>();
   final streetController =
       TextEditingController(text: 'Praça Almirante Pena Boto');
   final numberController = TextEditingController(text: '50');
