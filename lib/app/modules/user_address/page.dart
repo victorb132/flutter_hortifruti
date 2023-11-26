@@ -13,6 +13,7 @@ class UserAddressPage extends GetView<UserAddressController> {
         (state) => SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Form(
+            key: controller.formKey,
             child: Column(
               children: [
                 TextFormField(
