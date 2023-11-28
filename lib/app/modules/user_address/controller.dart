@@ -33,7 +33,9 @@ class UserAddressController extends GetxController
   }
 
   void submit() {
-    formKey.currentState!.validate();
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
 
     final userAddressRequest = UserAddressRequestModel(
       street: streetController.text,
