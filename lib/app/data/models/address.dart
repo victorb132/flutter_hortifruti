@@ -4,7 +4,7 @@ class AddressModel {
   int id;
   String street;
   String number;
-  String neighborhood;
+  String district;
   String referencePoint;
   String? complement;
   CityModel? city;
@@ -13,7 +13,7 @@ class AddressModel {
     required this.id,
     required this.street,
     required this.number,
-    required this.neighborhood,
+    required this.district,
     required this.referencePoint,
     this.complement,
     this.city,
@@ -24,7 +24,7 @@ class AddressModel {
       id: json['id'],
       street: json['street'],
       number: json['number'],
-      neighborhood: json['district'],
+      district: json['district'],
       referencePoint: json['reference_point'],
       complement: json['complement'],
       city: json['city'] != null ? CityModel.fromJson(json['city']) : null,
@@ -36,7 +36,7 @@ class AddressModel {
       'id': id,
       'street': street,
       'number': number,
-      'neighborhood': neighborhood,
+      'district': district,
       'reference_point': referencePoint,
       'complement': complement,
     };

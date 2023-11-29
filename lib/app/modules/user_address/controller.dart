@@ -17,7 +17,7 @@ class UserAddressController extends GetxController
   final streetController =
       TextEditingController(text: 'Praça Almirante Pena Boto');
   final numberController = TextEditingController(text: '50');
-  final neighborhoodController = TextEditingController(text: 'Jardim Satélite');
+  final districtController = TextEditingController(text: 'Jardim Satélite');
   final referencePointController = TextEditingController(text: 'Perto do bar');
   final complementController = TextEditingController(text: 'Apt 50/ bloco 02');
   final cityId = RxnInt();
@@ -33,6 +33,8 @@ class UserAddressController extends GetxController
   }
 
   void submit() {
+    Get.focusScope?.unfocus();
+
     if (!formKey.currentState!.validate()) {
       return;
     }
@@ -40,11 +42,13 @@ class UserAddressController extends GetxController
     final userAddressRequest = UserAddressRequestModel(
       street: streetController.text,
       number: numberController.text,
-      neighborhood: neighborhoodController.text,
+      district: districtController.text,
       referencePoint: referencePointController.text,
       cityId: cityId.value ?? 0,
       complement: complementController.text,
     );
+
+    print(userAddressRequest.toJson());
 
     _repository.postAddress(userAddressRequest).then(
       (value) {

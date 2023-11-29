@@ -1,7 +1,7 @@
 class UserAddressRequestModel {
   String street;
   String number;
-  String neighborhood;
+  String district;
   String referencePoint;
   String? complement;
   int cityId;
@@ -9,7 +9,7 @@ class UserAddressRequestModel {
   UserAddressRequestModel({
     required this.street,
     required this.number,
-    required this.neighborhood,
+    required this.district,
     required this.referencePoint,
     this.complement,
     required this.cityId,
@@ -18,7 +18,7 @@ class UserAddressRequestModel {
   Map<String, dynamic> toJson() => {
         'street': street,
         'number': number,
-        'neighborhood': neighborhood,
+        'district': district,
         'reference_point': referencePoint,
         'city_id': cityId,
         if (complement!.isNotEmpty) 'complement': complement,

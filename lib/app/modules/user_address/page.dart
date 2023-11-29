@@ -43,7 +43,7 @@ class UserAddressPage extends GetView<UserAddressController> {
                   },
                 ),
                 TextFormField(
-                  controller: controller.neighborhoodController,
+                  controller: controller.districtController,
                   decoration: const InputDecoration(
                     labelText: 'Bairro',
                   ),
