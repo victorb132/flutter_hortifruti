@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hortifruti/app/data/models/address.dart';
+import 'package:flutter_hortifruti/app/data/models/order_request.dart';
 import 'package:flutter_hortifruti/app/data/models/payment_method.dart';
 import 'package:flutter_hortifruti/app/data/models/shipping_by_city.dart';
 import 'package:flutter_hortifruti/app/data/services/auth/service.dart';
@@ -30,6 +31,10 @@ class CheckoutController extends GetxController {
   CheckoutController(this._repository);
 
   num get totalCart => _cartService.total;
+  bool get deliveryToMyAddress => getShippingByCity != null;
+  num get totalOrder => totalCart + deliveryCost;
+  bool get isLogged => _authService.isLogged;
+  bool get canSendOrder => isLogged && deliveryToMyAddress;
 
   num get deliveryCost {
     if (getShippingByCity != null) {
@@ -49,14 +54,8 @@ class CheckoutController extends GetxController {
     );
   }
 
-  bool get deliveryToMyAddress => getShippingByCity != null;
-
-  num get totalOrder => totalCart + deliveryCost;
-
   List<PaymentMethodModel> get paymentMethods =>
       _cartService.store.value?.paymentMethod ?? [];
-
-  bool get isLogged => _authService.isLogged;
 
   void changePaymentMethod(PaymentMethodModel? newPaymentMethod) {
     paymentMethod.value = newPaymentMethod;
@@ -111,5 +110,42 @@ class CheckoutController extends GetxController {
         ],
       ),
     );
+  }
+
+  void sendOrder() {
+    if (paymentMethod.value == null) {
+      ScaffoldMessenger.of(Get.overlayContext!).showSnackBar(
+        const SnackBar(
+          content: Text('Selecione uma forma de pagamento'),
+        ),
+      );
+      return;
+    }
+
+    final orderRequest = OrderRequestModel(
+      store: _cartService.store.value!,
+      paymentMethod: paymentMethod.value!,
+      cartProducts: _cartService.products,
+      address: addressSelected.value!,
+      observation: _cartService.observation.value,
+    );
+
+    _repository.postOrder(orderRequest).then((value) {
+      Get.dialog(
+        AlertDialog(
+          title: const Text('Pedido enviado!'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                _cartService.finishCart();
+                Get.offAllNamed(Routes.dashboard);
+              },
+              child: const Text('Ver meus pedidos'),
+            )
+          ],
+        ),
+        barrierDismissible: false,
+      );
+    });
   }
 }

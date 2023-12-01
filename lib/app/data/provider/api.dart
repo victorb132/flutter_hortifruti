@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_hortifruti/app/data/models/address.dart';
 import 'package:flutter_hortifruti/app/data/models/city.dart';
+import 'package:flutter_hortifruti/app/data/models/order_request.dart';
 import 'package:flutter_hortifruti/app/data/models/store.dart';
 import 'package:flutter_hortifruti/app/data/models/user.dart';
 import 'package:flutter_hortifruti/app/data/models/user_address_request.dart';
@@ -98,6 +99,10 @@ class Api extends GetConnect {
     return StoreModel.fromJson(response.body);
   }
 
+  Future postOrder(OrderRequestModel data) async {
+    _errorHandler(await post('/pedidos', jsonEncode(data)));
+  }
+
   Response _errorHandler(Response response) {
     print(response.bodyString);
 
@@ -107,7 +112,7 @@ class Api extends GetConnect {
       case 204:
         return response;
       default:
-        throw 'Ocorreu um erro';
+        throw 'Ocorreu um erro aqui';
     }
   }
 }
