@@ -57,6 +57,8 @@ class UserAddressController extends GetxController
             content: Text('Endereço cadastrado com sucesso!'),
           ),
         );
+
+        Get.back(result: true);
       },
       onError: (error) => Get.dialog(
         AlertDialog(
