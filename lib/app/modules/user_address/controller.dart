@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hortifruti/app/data/models/address.dart';
 import 'package:flutter_hortifruti/app/data/models/city.dart';
 import 'package:flutter_hortifruti/app/data/models/user_address_request.dart';
-import 'package:flutter_hortifruti/app/data/services/auth/service.dart';
 import 'package:flutter_hortifruti/app/modules/user_address/repository.dart';
 import 'package:get/get.dart';
 
@@ -11,8 +11,6 @@ class UserAddressController extends GetxController
 
   UserAddressController(this._repository);
 
-  final _authService = Get.find<AuthService>();
-
   final formKey = GlobalKey<FormState>();
   final streetController =
       TextEditingController(text: 'Praça Almirante Pena Boto');
@@ -21,9 +19,23 @@ class UserAddressController extends GetxController
   final referencePointController = TextEditingController(text: 'Perto do bar');
   final complementController = TextEditingController(text: 'Apt 50/ bloco 02');
   final cityId = RxnInt();
+  final _address = Rxn<AddressModel>();
+  final editing = RxBool(false);
 
   @override
   void onInit() {
+    if (Get.arguments != null) {
+      editing(true);
+      _address.value = Get.arguments;
+
+      streetController.text = _address.value?.street ?? '';
+      numberController.text = _address.value?.number ?? '';
+      districtController.text = _address.value?.district ?? '';
+      referencePointController.text = _address.value?.referencePoint ?? '';
+      complementController.text = _address.value?.complement ?? '';
+      cityId.value = _address.value?.city?.id ?? 0;
+    }
+
     _repository.getCities().then((data) {
       change(data, status: RxStatus.success());
     }, onError: (error) {
@@ -40,6 +52,7 @@ class UserAddressController extends GetxController
     }
 
     final userAddressRequest = UserAddressRequestModel(
+      id: editing.isTrue ? _address.value?.id : null,
       street: streetController.text,
       number: numberController.text,
       district: districtController.text,
@@ -48,13 +61,38 @@ class UserAddressController extends GetxController
       complement: complementController.text,
     );
 
-    print(userAddressRequest.toJson());
+    if (editing.isTrue) {
+      return _updateAddress(userAddressRequest);
+    }
 
+    _addAddress(userAddressRequest);
+  }
+
+  void _addAddress(UserAddressRequestModel userAddressRequest) {
     _repository.postAddress(userAddressRequest).then(
       (value) {
         ScaffoldMessenger.of(Get.overlayContext!).showSnackBar(
           const SnackBar(
             content: Text('Endereço cadastrado com sucesso!'),
+          ),
+        );
+
+        Get.back(result: true);
+      },
+      onError: (error) => Get.dialog(
+        AlertDialog(
+          title: Text(error.toString()),
+        ),
+      ),
+    );
+  }
+
+  void _updateAddress(UserAddressRequestModel userAddressRequest) {
+    _repository.putAddress(userAddressRequest).then(
+      (value) {
+        ScaffoldMessenger.of(Get.overlayContext!).showSnackBar(
+          const SnackBar(
+            content: Text('Endereço atualizado com sucesso!'),
           ),
         );
 

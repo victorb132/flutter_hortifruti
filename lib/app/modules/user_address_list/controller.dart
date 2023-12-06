@@ -31,6 +31,14 @@ class UserAddressListController extends GetxController
     }
   }
 
+  void goToEditAddress(AddressModel address) async {
+    final result = await Get.toNamed(Routes.userAddress, arguments: address);
+
+    if (result is bool && result) {
+      fetchAddresses();
+    }
+  }
+
   void deleteAddress(AddressModel address) {
     _repository.deleteAddress(address.id).then(
       (value) async {
