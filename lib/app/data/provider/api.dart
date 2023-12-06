@@ -59,6 +59,10 @@ class Api extends GetConnect {
     return response.body;
   }
 
+  Future<void> deleteAddress(int id) async {
+    _errorHandler(await delete('/enderecos/$id'));
+  }
+
   Future<List<StoreModel>> getStores() async {
     final response = _errorHandler(await get('/cidades/1/estabelecimentos'));
 
