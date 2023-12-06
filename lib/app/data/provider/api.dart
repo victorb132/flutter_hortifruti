@@ -8,6 +8,7 @@ import 'package:flutter_hortifruti/app/data/models/user.dart';
 import 'package:flutter_hortifruti/app/data/models/user_address_request.dart';
 import 'package:flutter_hortifruti/app/data/models/user_login_request.dart';
 import 'package:flutter_hortifruti/app/data/models/user_login_response.dart';
+import 'package:flutter_hortifruti/app/data/models/user_profile_request.dart';
 import 'package:flutter_hortifruti/app/data/services/config/storage/service.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/request/request.dart';
@@ -78,6 +79,11 @@ class Api extends GetConnect {
 
   Future<UserModel> getUser() async {
     final response = _errorHandler(await get('/auth/me'));
+    return UserModel.fromJson(response.body);
+  }
+
+  Future<UserModel> putUser(UserProfileRequestModel data) async {
+    final response = _errorHandler(await put('/cliente', jsonEncode(data)));
     return UserModel.fromJson(response.body);
   }
 

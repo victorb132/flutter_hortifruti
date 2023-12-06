@@ -61,18 +61,26 @@ class CheckoutController extends GetxController {
     paymentMethod.value = newPaymentMethod;
   }
 
-  void goToNewAddress() {
-    Get.toNamed(Routes.userAddress);
+  void goToNewAddress() async {
+    final result = await Get.toNamed(Routes.userAddress);
+
+    if (result is bool && result) {
+      fetchAddresses();
+    }
   }
 
-  void goToLogin() {
-    Get.toNamed(Routes.login);
+  void goToLogin() async {
+    final result = await Get.toNamed(Routes.login);
+
+    if (result is bool && result) {
+      fetchAddresses();
+    }
   }
 
   fetchAddresses() {
     _repository.getUserAddresses().then(
       (value) {
-        addresses.addAll(value);
+        addresses.assignAll(value);
 
         if (addresses.isNotEmpty) {
           addressSelected.value = addresses.first;
@@ -138,7 +146,7 @@ class CheckoutController extends GetxController {
             TextButton(
               onPressed: () {
                 _cartService.finishCart();
-                Get.offAllNamed(Routes.dashboard);
+                Get.offAllNamed(Routes.dashboard, arguments: 2);
               },
               child: const Text('Ver meus pedidos'),
             )

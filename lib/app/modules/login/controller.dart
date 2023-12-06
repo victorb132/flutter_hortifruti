@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hortifruti/app/data/models/user_login_request.dart';
 import 'package:flutter_hortifruti/app/data/services/auth/service.dart';
+import 'package:flutter_hortifruti/app/routes/routes.dart';
 import 'package:get/get.dart';
 
 class LoginController extends GetxController {
@@ -22,6 +23,14 @@ class LoginController extends GetxController {
       password: passwordController.text,
     );
 
-    _authService.login(user).then((value) => {});
+    _authService.login(user).then((value) {
+      if (Get.routing.current == Routes.checkout) {
+        Get.back(result: true);
+      } else {
+        Get.offAllNamed(Routes.dashboard, arguments: 1);
+      }
+    }, onError: (error) {
+      Get.dialog(AlertDialog(title: Text(error.toString())));
+    });
   }
 }
