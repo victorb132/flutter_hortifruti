@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_hortifruti/app/data/models/address.dart';
 import 'package:flutter_hortifruti/app/data/models/city.dart';
+import 'package:flutter_hortifruti/app/data/models/order.dart';
 import 'package:flutter_hortifruti/app/data/models/order_request.dart';
 import 'package:flutter_hortifruti/app/data/models/store.dart';
 import 'package:flutter_hortifruti/app/data/models/user.dart';
@@ -65,18 +66,6 @@ class Api extends GetConnect {
     _errorHandler(await delete('/enderecos/$id'));
   }
 
-  Future<List<StoreModel>> getStores() async {
-    final response = _errorHandler(await get('/cidades/1/estabelecimentos'));
-
-    List<StoreModel> data = [];
-
-    for (final store in response.body) {
-      data.add(StoreModel.fromJson(store));
-    }
-
-    return data;
-  }
-
   Future<UserLoginResponseModel> login(UserLoginRequestModel data) async {
     final response = _errorHandler(await post('/login', jsonEncode(data)));
 
@@ -105,6 +94,19 @@ class Api extends GetConnect {
     return data;
   }
 
+  Future<List<StoreModel>> getStores(int cityId) async {
+    final response =
+        _errorHandler(await get('/cidades/$cityId/estabelecimentos'));
+
+    List<StoreModel> data = [];
+
+    for (final store in response.body) {
+      data.add(StoreModel.fromJson(store));
+    }
+
+    return data;
+  }
+
   Future<StoreModel> getStore(int id) async {
     final response = _errorHandler(await get('/estabelecimentos/$id'));
 
@@ -113,6 +115,24 @@ class Api extends GetConnect {
 
   Future postOrder(OrderRequestModel data) async {
     _errorHandler(await post('/pedidos', jsonEncode(data)));
+  }
+
+  Future<List<OrderModel>> getOrders() async {
+    final response = _errorHandler(await get('/pedidos'));
+
+    List<OrderModel> data = [];
+
+    for (final order in response.body) {
+      data.add(OrderModel.fromJson(order));
+    }
+
+    return data;
+  }
+
+  Future<OrderModel> getOrder(String id) async {
+    final response = _errorHandler(await get('/pedidos/$id'));
+
+    return OrderModel.fromJson(response.body);
   }
 
   Response _errorHandler(Response response) {

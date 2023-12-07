@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hortifruti/app/modules/user_profile/controller.dart';
+import 'package:flutter_hortifruti/app/modules/register/controller.dart';
 import 'package:flutter_hortifruti/app/routes/routes.dart';
 import 'package:get/get.dart';
 
-class UserProfilePage extends GetView<UserProfileController> {
-  const UserProfilePage({super.key});
+class RegisterPage extends GetView<RegisterController> {
+  const RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {

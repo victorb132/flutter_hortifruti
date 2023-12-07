@@ -7,4 +7,6 @@ abstract class Routes {
   static const login = '/login';
   static const userAddress = '/user-address';
   static const userAddressList = '/user-address-list';
+  static const order = '/order/:id';
+  static const selectCity = '/select-city';
 }

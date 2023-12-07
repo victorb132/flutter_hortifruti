@@ -13,6 +13,13 @@ class HomePage extends GetView<HomeController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Hortifruti'),
+        actions: [
+          IconButton(
+            onPressed: () => Get.toNamed(Routes.selectCity),
+            icon: const Icon(Icons.location_pin),
+            tooltip: 'Alterar cidade',
+          ),
+        ],
       ),
       body: controller.obx(
         (state) => ListView(
