@@ -79,11 +79,13 @@ class UserAddressController extends GetxController
 
         Get.back(result: true);
       },
-      onError: (error) => Get.dialog(
-        AlertDialog(
-          title: Text(error.toString()),
-        ),
-      ),
+      onError: (error) {
+        Get.dialog(
+          AlertDialog(
+            title: Text(error.toString()),
+          ),
+        );
+      },
     );
   }
 
@@ -98,11 +100,13 @@ class UserAddressController extends GetxController
 
         Get.back(result: true);
       },
-      onError: (error) => Get.dialog(
-        AlertDialog(
-          title: Text(error.toString()),
-        ),
-      ),
+      onError: (error) {
+        Get.dialog(
+          AlertDialog(
+            title: Text(error.toString()),
+          ),
+        );
+      },
     );
   }
 

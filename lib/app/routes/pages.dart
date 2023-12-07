@@ -12,6 +12,8 @@ import 'package:flutter_hortifruti/app/modules/order/binding.dart';
 import 'package:flutter_hortifruti/app/modules/order/page.dart';
 import 'package:flutter_hortifruti/app/modules/product/binding.dart';
 import 'package:flutter_hortifruti/app/modules/product/page.dart';
+import 'package:flutter_hortifruti/app/modules/register/binding.dart';
+import 'package:flutter_hortifruti/app/modules/register/page.dart';
 import 'package:flutter_hortifruti/app/modules/select_city/binding.dart';
 import 'package:flutter_hortifruti/app/modules/select_city/page.dart';
 import 'package:flutter_hortifruti/app/modules/store/binding.dart';
@@ -55,6 +57,11 @@ abstract class AppPages {
       name: Routes.login,
       page: () => const LoginPage(),
       binding: LoginBinding(),
+    ),
+    GetPage(
+      name: Routes.register,
+      page: () => const RegisterPage(),
+      binding: RegisterBinding(),
     ),
     GetPage(
       name: Routes.userAddress,

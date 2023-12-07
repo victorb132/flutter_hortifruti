@@ -7,8 +7,6 @@ class RegisterRepository {
 
   RegisterRepository(this._api);
 
-  Future<UserModel> getUser() => _api.getUser();
-
-  Future<UserModel> putUser(UserProfileRequestModel userProfileRequest) =>
-      _api.putUser(userProfileRequest);
+  Future<UserModel> register(UserProfileRequestModel userProfileRequest) =>
+      _api.register(userProfileRequest);
 }

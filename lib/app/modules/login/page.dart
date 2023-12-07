@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hortifruti/app/modules/login/controller.dart';
+import 'package:flutter_hortifruti/app/routes/routes.dart';
 import 'package:get/get.dart';
 
 class LoginPage extends GetView<LoginController> {
@@ -63,7 +64,7 @@ class LoginPage extends GetView<LoginController> {
                 children: [
                   Expanded(
                     child: OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () => Get.toNamed(Routes.register),
                       child: const Text('Criar conta'),
                     ),
                   ),

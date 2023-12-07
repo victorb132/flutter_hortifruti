@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hortifruti/app/data/models/user.dart';
+import 'package:flutter_hortifruti/app/data/models/user_login_request.dart';
 import 'package:flutter_hortifruti/app/data/models/user_profile_request.dart';
 import 'package:flutter_hortifruti/app/data/services/auth/service.dart';
 import 'package:flutter_hortifruti/app/modules/register/repository.dart';
 import 'package:flutter_hortifruti/app/routes/routes.dart';
 import 'package:get/get.dart';
 
-class RegisterController extends GetxController with StateMixin<UserModel> {
+class RegisterController extends GetxController {
   final RegisterRepository _repository;
 
   RegisterController(this._repository);
@@ -14,24 +14,10 @@ class RegisterController extends GetxController with StateMixin<UserModel> {
   final _authService = Get.find<AuthService>();
 
   final formKey = GlobalKey<FormState>();
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final phoneController = TextEditingController();
-  final passwordController = TextEditingController();
-
-  @override
-  void onInit() {
-    _repository.getUser().then((data) {
-      nameController.text = data.name;
-      emailController.text = data.email;
-      phoneController.text = data.phone;
-
-      change(data, status: RxStatus.success());
-    }, onError: (error) {
-      change(null, status: RxStatus.error(error.toString()));
-    });
-    super.onInit();
-  }
+  final nameController = TextEditingController(text: 'Teste');
+  final emailController = TextEditingController(text: 'teste6@teste.com');
+  final phoneController = TextEditingController(text: '11983571644');
+  final passwordController = TextEditingController(text: 'senhateste');
 
   void submit() {
     Get.focusScope?.unfocus();
@@ -47,27 +33,27 @@ class RegisterController extends GetxController with StateMixin<UserModel> {
       password: passwordController.text,
     );
 
-    _repository.putUser(userProfileRequest).then(
-      (value) {
-        ScaffoldMessenger.of(Get.overlayContext!).showSnackBar(
-          const SnackBar(
-            content: Text('Seu perfil foi atualizado com sucesso!'),
-          ),
-        );
+    _repository.register(userProfileRequest).then((value) async {
+      await _authService.login(
+        UserLoginRequestModel(
+          email: emailController.text,
+          password: passwordController.text,
+        ),
+      );
 
-        passwordController.text = '';
-      },
-      onError: (error) => Get.dialog(
+      ScaffoldMessenger.of(Get.overlayContext!).showSnackBar(
+        const SnackBar(
+          content: Text('Cadastro feito com sucesso!'),
+        ),
+      );
+
+      Get.offAllNamed(Routes.dashboard);
+    }, onError: (error) {
+      Get.dialog(
         AlertDialog(
           title: Text(error.toString()),
         ),
-      ),
-    );
-  }
-
-  void logout() async {
-    await _authService.logout();
-
-    Get.offAllNamed(Routes.dashboard);
+      );
+    });
   }
 }

@@ -72,6 +72,13 @@ class Api extends GetConnect {
     return UserLoginResponseModel.fromJson(response.body);
   }
 
+  Future<UserModel> register(UserProfileRequestModel data) async {
+    final response =
+        _errorHandler(await post('/cliente/cadastro', jsonEncode(data)));
+
+    return UserModel.fromJson(response.body);
+  }
+
   Future<UserModel> getUser() async {
     final response = _errorHandler(await get('/auth/me'));
     return UserModel.fromJson(response.body);
@@ -143,6 +150,8 @@ class Api extends GetConnect {
       case 202:
       case 204:
         return response;
+      case 422:
+        throw response.body['errors'].first['message'];
       default:
         throw 'Ocorreu um erro aqui';
     }
