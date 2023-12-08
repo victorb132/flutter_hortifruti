@@ -21,8 +21,10 @@ class CheckoutController extends GetxController {
   final loading = true.obs;
 
   @override
-  void onInit() async {
-    await fetchAddresses();
+  void onInit() {
+    fetchAddresses();
+
+    ever(_authService.user, (_) => fetchAddresses());
 
     super.onInit();
   }
@@ -68,12 +70,8 @@ class CheckoutController extends GetxController {
     }
   }
 
-  void goToLogin() async {
-    final result = await Get.toNamed(Routes.login);
-
-    if (result is bool && result) {
-      fetchAddresses();
-    }
+  void goToLogin() {
+    Get.toNamed(Routes.login);
   }
 
   fetchAddresses() {

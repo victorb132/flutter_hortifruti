@@ -8,6 +8,8 @@ class CartService extends GetxService {
   final store = Rxn<StoreModel>();
   final observation = ''.obs;
 
+  bool get isEmpty => products.isEmpty;
+
   num get total =>
       products.fold(0, (total, cartProduct) => total + cartProduct.total);
 
